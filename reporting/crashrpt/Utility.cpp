@@ -45,7 +45,7 @@ CString Utility::GetModulePath(HMODULE hModule)
     CString string;
     LPTSTR buf = string.GetBuffer(_MAX_PATH);
     GetModuleFileName(hModule, buf, _MAX_PATH);
-    TCHAR* ptr = _tcsrchr(buf,'\\');
+    TCHAR* ptr = _tcsrchr(buf,_T('\\'));
     if(ptr!=NULL)
         *(ptr)=0; // remove executable name
     string.ReleaseBuffer();
@@ -245,24 +245,29 @@ int Utility::GetGeoLocation(CString& sGeoLocation)
     sGeoLocation = _T("");
 
     typedef GEOID (WINAPI *PFNGETUSERGEOID)(GEOCLASS);
-    typedef int (WINAPI *PFNGETGEOINFOW)(GEOID, GEOTYPE, LPWSTR, int, LANGID);
+    typedef int (WINAPI *PFNGETGEOINFO)(GEOID, GEOTYPE, LPTSTR, int, LANGID);
 
     HMODULE hKernel32 = LoadLibrary(_T("kernel32.dll"));
     if(hKernel32!=NULL)
     {
         PFNGETUSERGEOID pfnGetUserGeoID = 
             (PFNGETUSERGEOID)GetProcAddress(hKernel32, "GetUserGeoID");
-        PFNGETGEOINFOW pfnGetGeoInfoW = 
-            (PFNGETGEOINFOW)GetProcAddress(hKernel32, "GetGeoInfoW");
+#ifdef UNICODE
+        PFNGETGEOINFO pfnGetGeoInfo = 
+            (PFNGETGEOINFO)GetProcAddress(hKernel32, "GetGeoInfoW");
+#else
+        PFNGETGEOINFO pfnGetGeoInfo =
+            (PFNGETGEOINFO)GetProcAddress(hKernel32, "GetGeoInfoA");
+#endif
         if(pfnGetUserGeoID==NULL || 
-            pfnGetGeoInfoW==NULL)
+            pfnGetGeoInfo==NULL)
             return -1;
 
         GEOID GeoLocation = pfnGetUserGeoID(GEOCLASS_NATION);
         if(GeoLocation!=GEOID_NOT_AVAILABLE)
         { 
-            WCHAR szGeoInfo[1024] = _T("");    
-            int n = pfnGetGeoInfoW(GeoLocation, GEO_RFC1766, szGeoInfo, 1024, 0);
+            TCHAR szGeoInfo[1024] = _T("");    
+            int n = pfnGetGeoInfo(GeoLocation, GEO_RFC1766, szGeoInfo, 1024, 0);
             if(n!=0)
             {
                 sGeoLocation = szGeoInfo;

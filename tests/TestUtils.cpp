@@ -40,22 +40,22 @@ BOOL TestUtils::CreateErrorReport(CString sTmpFolder, CString& sErrorReportName,
     if(lResult!=ERROR_SUCCESS)
         goto cleanup;
 
-    CR_INSTALL_INFOW infoW;
-    memset(&infoW, 0, sizeof(CR_INSTALL_INFOW));
-    infoW.cb = sizeof(CR_INSTALL_INFOW);  
-    infoW.pszAppName = L"My& app Name &"; 
+    CR_INSTALL_INFO info;
+    memset(&info, 0, sizeof(CR_INSTALL_INFO));
+    info.cb = sizeof(CR_INSTALL_INFO);  
+    info.pszAppName = _T("My& app Name &"); 
     // Use appname with restricted XML characters
-    infoW.pszAppVersion = L"1.0.0 &<'a应> \"<"; 
-    infoW.pszErrorReportSaveDir = sTmpFolder;
-    infoW.dwFlags = CR_INST_NO_GUI|CR_INST_DONT_SEND_REPORT|CR_INST_STORE_ZIP_ARCHIVES;  
+    info.pszAppVersion = _T("1.0.0 &<'a应> \"<");
+    info.pszErrorReportSaveDir = sTmpFolder;
+    info.dwFlags = CR_INST_NO_GUI|CR_INST_DONT_SEND_REPORT|CR_INST_STORE_ZIP_ARCHIVES;  
 
-    int nInstallResult = crInstallW(&infoW);
+    int nInstallResult = crInstall(&info);
     if(nInstallResult!=0)
         goto cleanup;
 
     crAddScreenshot(CR_AS_MAIN_WINDOW);
-    crAddPropertyW(L"CustomProp", L"Property Value");
-    crAddRegKey(sKeyName2, L"regkey.xml", 0);
+    crAddProperty(_T("CustomProp"), _T("Property Value"));
+    crAddRegKey(sKeyName2, _T("regkey.xml"), 0);
 
     CR_EXCEPTION_INFO ei;
     memset(&ei, 0, sizeof(CR_EXCEPTION_INFO));

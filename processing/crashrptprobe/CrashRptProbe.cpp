@@ -218,7 +218,8 @@ crpOpenErrorReportW(
         if(result!=0)
             goto exit;
 
-        if(sCalculatedMD5Hash.CompareNoCase(pszMd5Hash)!=0)
+        const TCHAR* ptszMd5Hash = strconv.w2t(pszMd5Hash);
+        if(sCalculatedMD5Hash.CompareNoCase(ptszMd5Hash)!=0)
         {  
             crpSetErrorMsg(_T("File might be corrupted, because MD5 hash is wrong."));
             goto exit; // Invalid hash
@@ -226,7 +227,8 @@ crpOpenErrorReportW(
     }
 
     // Open ZIP archive
-    report_data.m_hZip = unzOpen((const char*)pszFileName);
+    const char* pszFileNameA = strconv.w2a(pszFileName);
+    report_data.m_hZip = unzOpen(pszFileNameA);
     if(report_data.m_hZip==NULL)
     {
         crpSetErrorMsg(_T("Error opening ZIP archive."));
@@ -506,7 +508,7 @@ crpGetPropertyW(
     if(pcchCount!=NULL)
         *pcchCount = 0;  
 
-    LPCWSTR pszPropVal = NULL;
+    LPCTSTR pszPropVal = NULL;
     const int BUFF_SIZE = 4096; 
     TCHAR szBuff[BUFF_SIZE]; // Internal buffer to store property value
     strconv_t strconv; // String convertor object
@@ -588,19 +590,19 @@ crpGetPropertyW(
                 crpSetErrorMsg(_T("Invalid column ID is specified."));
                 return -3;
             }
-            pszPropVal = strconv.t2w(pDescReader->m_sCrashGUID);    
+            pszPropVal = pDescReader->m_sCrashGUID;    
         }
         else if(sColumnId.Compare(CRP_COL_APP_NAME)==0)
         {
-            pszPropVal = strconv.t2w(pDescReader->m_sAppName);    
+            pszPropVal = pDescReader->m_sAppName;    
         }
         else if(sColumnId.Compare(CRP_COL_APP_VERSION)==0)
         {      
-            pszPropVal = strconv.t2w(pDescReader->m_sAppVersion);    
+            pszPropVal = pDescReader->m_sAppVersion;    
         }
         else if(sColumnId.Compare(CRP_COL_IMAGE_NAME)==0)
         {
-            pszPropVal = strconv.t2w(pDescReader->m_sImageName);    
+            pszPropVal = pDescReader->m_sImageName;    
         }
         else if(sColumnId.Compare(CRP_COL_OPERATING_SYSTEM)==0)
         {
@@ -610,7 +612,7 @@ crpGetPropertyW(
                 crpSetErrorMsg(_T("Invalid column ID is specified."));
                 return -3;
             }
-            pszPropVal = strconv.t2w(pDescReader->m_sOperatingSystem);    
+            pszPropVal = pDescReader->m_sOperatingSystem;    
         }
         else if(sColumnId.Compare(CRP_COL_SYSTEM_TIME_UTC)==0)
         {
@@ -620,7 +622,7 @@ crpGetPropertyW(
                 crpSetErrorMsg(_T("Invalid column ID is specified."));
                 return -3;
             }
-            pszPropVal = strconv.t2w(pDescReader->m_sSystemTimeUTC);    
+            pszPropVal = pDescReader->m_sSystemTimeUTC;    
         }
         else if(sColumnId.Compare(CRP_COL_INVPARAM_FUNCTION)==0)
         {  
@@ -629,7 +631,7 @@ crpGetPropertyW(
                 crpSetErrorMsg(_T("This property is supported for invalid parameter errors only."));
                 return -3;
             }
-            pszPropVal = strconv.t2w(pDescReader->m_sInvParamFunction);    
+            pszPropVal = pDescReader->m_sInvParamFunction;    
         }
         else if(sColumnId.Compare(CRP_COL_INVPARAM_EXPRESSION)==0)
         {  
@@ -638,7 +640,7 @@ crpGetPropertyW(
                 crpSetErrorMsg(_T("This property is supported for invalid parameter errors only."));
                 return -3;
             }
-            pszPropVal = strconv.t2w(pDescReader->m_sInvParamExpression);    
+            pszPropVal = pDescReader->m_sInvParamExpression;    
         }
         else if(sColumnId.Compare(CRP_COL_INVPARAM_FILE)==0)
         {      
@@ -647,7 +649,7 @@ crpGetPropertyW(
                 crpSetErrorMsg(_T("This property is supported for invalid parameter errors only."));
                 return -3;
             }
-            pszPropVal = strconv.t2w(pDescReader->m_sInvParamFile);    
+            pszPropVal = pDescReader->m_sInvParamFile;    
         }
         else if(sColumnId.Compare(CRP_COL_INVPARAM_LINE)==0)
         {
@@ -705,7 +707,7 @@ crpGetPropertyW(
                 crpSetErrorMsg(_T("Invalid column ID is specified."));
                 return -3;
             }
-            pszPropVal = strconv.t2w(pDescReader->m_sUserEmail);    
+            pszPropVal = pDescReader->m_sUserEmail;    
         }
         else if(sColumnId.Compare(CRP_COL_PROBLEM_DESCRIPTION)==0)
         {
@@ -715,7 +717,7 @@ crpGetPropertyW(
                 crpSetErrorMsg(_T("Invalid column ID is specified."));
                 return -3;
             }
-            pszPropVal = strconv.t2w(pDescReader->m_sProblemDescription);    
+            pszPropVal = pDescReader->m_sProblemDescription;    
         }
         else if(sColumnId.Compare(CRP_COL_GUI_RESOURCE_COUNT)==0)
         {
@@ -725,7 +727,7 @@ crpGetPropertyW(
                 crpSetErrorMsg(_T("Invalid column ID is specified."));
                 return -3;
             }
-            pszPropVal = strconv.t2w(pDescReader->m_sGUIResourceCount);    
+            pszPropVal = pDescReader->m_sGUIResourceCount;    
         }
         else if(sColumnId.Compare(CRP_COL_OPEN_HANDLE_COUNT)==0)
         {
@@ -735,7 +737,7 @@ crpGetPropertyW(
                 crpSetErrorMsg(_T("Invalid column ID is specified."));
                 return -3;
             }
-            pszPropVal = strconv.t2w(pDescReader->m_sOpenHandleCount);    
+            pszPropVal = pDescReader->m_sOpenHandleCount;    
         }
         else if(sColumnId.Compare(CRP_COL_MEMORY_USAGE_KBYTES)==0)
         {
@@ -745,7 +747,7 @@ crpGetPropertyW(
                 crpSetErrorMsg(_T("Invalid column ID is specified."));
                 return -3;
             }
-            pszPropVal = strconv.t2w(pDescReader->m_sMemoryUsageKbytes);    
+            pszPropVal = pDescReader->m_sMemoryUsageKbytes;    
         }
         else if(sColumnId.Compare(CRP_COL_OS_IS_64BIT)==0)
         {
@@ -755,7 +757,7 @@ crpGetPropertyW(
                 crpSetErrorMsg(_T("Invalid column ID is specified."));
                 return -3;
             }
-            _STPRINTF_S(szBuff, BUFF_SIZE, L"%d", pDescReader->m_bOSIs64Bit);    
+            _STPRINTF_S(szBuff, BUFF_SIZE, _T("%d"), pDescReader->m_bOSIs64Bit);    
             pszPropVal = szBuff;      
         }
         else if(sColumnId.Compare(CRP_COL_GEO_LOCATION)==0)
@@ -766,7 +768,7 @@ crpGetPropertyW(
                 crpSetErrorMsg(_T("Invalid column ID is specified."));
                 return -3;
             }
-            pszPropVal = strconv.t2w(pDescReader->m_sGeoLocation);    
+            pszPropVal = pDescReader->m_sGeoLocation;    
         }
         else
         {
@@ -805,7 +807,7 @@ crpGetPropertyW(
             if(pDescReader->m_dwGeneratorVersion==1000)
             {
                 if(sColumnId.Compare(CRP_COL_FILE_ITEM_NAME)==0)
-                    pszPropVal = strconv.t2w(it->second.m_ContainedFiles[nRowIndex]);            
+                    pszPropVal = it->second.m_ContainedFiles[nRowIndex];            
                 else
                     pszPropVal = _T("");
             }
@@ -816,9 +818,9 @@ crpGetPropertyW(
                 for(i=0; i<nRowIndex; i++) it++;
 
                 if(sColumnId.Compare(CRP_COL_FILE_ITEM_NAME)==0)
-                    pszPropVal = strconv.t2w(it->first);    
+                    pszPropVal = it->first;    
                 else
-                    pszPropVal = strconv.t2w(it->second);    
+                    pszPropVal = it->second;    
             }
         }
         else
@@ -853,9 +855,9 @@ crpGetPropertyW(
             for(i=0; i<nRowIndex; i++) it++;
 
             if(sColumnId.Compare(CRP_COL_PROPERTY_NAME)==0)
-                pszPropVal = strconv.t2w(it->first);    
+                pszPropVal = it->first;    
             else
-                pszPropVal = strconv.t2w(it->second);          
+                pszPropVal = it->second;          
         }
         else
         {
@@ -933,7 +935,7 @@ crpGetPropertyW(
         }
         else if(sColumnId.Compare(CRP_COL_OS_VER_CSD)==0)
         {      
-            pszPropVal = strconv.t2w(pDmpReader->m_DumpData.m_sCSDVer);    
+            pszPropVal = pDmpReader->m_DumpData.m_sCSDVer;    
         }
         else if(sColumnId.Compare(CRP_COL_EXCPTRS_EXCEPTION_CODE)==0)
         { 
@@ -1014,11 +1016,11 @@ crpGetPropertyW(
         }
         else if(sColumnId.Compare(CRP_COL_MODULE_NAME)==0)
         {      
-            pszPropVal = strconv.t2w(pDmpReader->m_DumpData.m_Modules[nRowIndex].m_sModuleName);    
+            pszPropVal = pDmpReader->m_DumpData.m_Modules[nRowIndex].m_sModuleName;    
         }
         else if(sColumnId.Compare(CRP_COL_MODULE_IMAGE_NAME)==0)
         {      
-            pszPropVal = strconv.t2w(pDmpReader->m_DumpData.m_Modules[nRowIndex].m_sImageName);    
+            pszPropVal = pDmpReader->m_DumpData.m_Modules[nRowIndex].m_sImageName;    
         }
         else if(sColumnId.Compare(CRP_COL_MODULE_BASE_ADDRESS)==0)
         {      
@@ -1032,11 +1034,11 @@ crpGetPropertyW(
         }
         else if(sColumnId.Compare(CRP_COL_MODULE_LOADED_PDB_NAME)==0)
         {
-            pszPropVal = strconv.t2w(pDmpReader->m_DumpData.m_Modules[nRowIndex].m_sLoadedPdbName);          
+            pszPropVal = pDmpReader->m_DumpData.m_Modules[nRowIndex].m_sLoadedPdbName;          
         }
         else if(sColumnId.Compare(CRP_COL_MODULE_LOADED_IMAGE_NAME)==0)
         {
-            pszPropVal = strconv.t2w(pDmpReader->m_DumpData.m_Modules[nRowIndex].m_sLoadedImageName);          
+            pszPropVal = pDmpReader->m_DumpData.m_Modules[nRowIndex].m_sLoadedImageName;          
         }
         else if(sColumnId.Compare(CRP_COL_MODULE_SYM_LOAD_STATUS)==0)
         {
@@ -1060,7 +1062,7 @@ crpGetPropertyW(
             _tcscpy_s(szBuff, BUFF_SIZE, sSymLoadStatus.GetBuffer(0));
 #endif
 
-            pszPropVal = strconv.t2w(szBuff);          
+            pszPropVal = szBuff;          
         }    
         else
         {
@@ -1160,11 +1162,11 @@ crpGetPropertyW(
         }
         else if(sColumnId.Compare(CRP_COL_STACK_SYMBOL_NAME)==0)
         {      
-            pszPropVal = strconv.t2w(pDmpReader->m_DumpData.m_Threads[nEntryIndex].m_StackTrace[nRowIndex].m_sSymbolName);    
+            pszPropVal = pDmpReader->m_DumpData.m_Threads[nEntryIndex].m_StackTrace[nRowIndex].m_sSymbolName;    
         }
         else if(sColumnId.Compare(CRP_COL_STACK_SOURCE_FILE)==0)
         {      
-            pszPropVal = strconv.t2w(pDmpReader->m_DumpData.m_Threads[nEntryIndex].m_StackTrace[nRowIndex].m_sSrcFileName);    
+            pszPropVal = pDmpReader->m_DumpData.m_Threads[nEntryIndex].m_StackTrace[nRowIndex].m_sSrcFileName;    
         }
         else
         {
@@ -1185,13 +1187,13 @@ crpGetPropertyW(
         // User wants us to get the required length of the buffer
         if(pcchCount!=NULL)
         {
-            *pcchCount = pszPropVal!=NULL?(ULONG)wcslen(pszPropVal):0;
+            *pcchCount = pszPropVal!=NULL?(ULONG)_tcslen(pszPropVal):0;
         }
     }
     else
     {
         // User wants us to return the property value 
-        ULONG uRequiredLen = pszPropVal!=NULL?(ULONG)wcslen(pszPropVal):0;
+        ULONG uRequiredLen = pszPropVal!=NULL?(ULONG)_tcslen(pszPropVal):0;
         if(uRequiredLen>(cchBuffSize))
         {
             crpSetErrorMsg(_T("Buffer is too small."));
@@ -1200,7 +1202,10 @@ crpGetPropertyW(
 
         // Copy the property to the buffer
         if(pszPropVal!=NULL)
-            WCSCPY_S(lpszBuffer, cchBuffSize, pszPropVal);
+        {
+            const WCHAR* pwszPropVal = strconv.t2w(pszPropVal);
+            WCSCPY_S(lpszBuffer, cchBuffSize, pwszPropVal);
+        }
 
         if(pcchCount!=NULL)
         {
@@ -1282,7 +1287,7 @@ crpExtractFileW(
     if(!bOverwriteExisting)
     {
         // Check if such file already exists
-        DWORD dwFileAttrs = GetFileAttributes(lpszFileSaveAs);
+        DWORD dwFileAttrs = GetFileAttributesW(lpszFileSaveAs);
         if(dwFileAttrs!=INVALID_FILE_ATTRIBUTES && // such object exists
             dwFileAttrs!=FILE_ATTRIBUTE_DIRECTORY)  // and it is not a directory
         {

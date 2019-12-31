@@ -1118,7 +1118,7 @@ BOOL CCrashInfoReader::AddUserInfoToCrashDescriptionXML(CString sEmail, CString 
 	if(hEmail.FirstChild().ToText()!=NULL)
 	{
 		email_text = hEmail.FirstChild().ToText();
-		email_text->SetValue(strconv.w2utf8(sEmail));
+        email_text->SetValue(strconv.t2utf8(sEmail));
 	}
 	else
 	{
@@ -1141,7 +1141,7 @@ BOOL CCrashInfoReader::AddUserInfoToCrashDescriptionXML(CString sEmail, CString 
 	if(hDesc.FirstChild().ToText()!=NULL)
 	{
 		desc_text = hDesc.FirstChild().ToText();
-		desc_text->SetValue(strconv.w2utf8(sDesc));
+		desc_text->SetValue(strconv.t2utf8(sDesc));
 	}
 	else
 	{

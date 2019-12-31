@@ -603,7 +603,7 @@ BOOL CErrorReportSender::OnMinidumpProgress(const PMINIDUMP_CALLBACK_INPUT Callb
 					dwExcAddr<=CallbackInput->Module.BaseOfImage+CallbackInput->Module.SizeOfImage)
 				{
 					// Save module information to the report
-					eri->SetExceptionModule(CallbackInput->Module.FullPath);
+					eri->SetExceptionModule(strconv.w2t(CallbackInput->Module.FullPath));
 					eri->SetExceptionModuleBase(CallbackInput->Module.BaseOfImage);
 
 					// Save module version info
@@ -1526,7 +1526,7 @@ int CErrorReportSender::DumpRegKey(HKEY hParentKey, CString sSubKey, TiXmlElemen
                     int i;
                     for(i=0; i<(int)dwSubKeys; i++)
                     { 
-                        LPWSTR szName = new WCHAR[dwMaxSubKey + 1];
+                        LPTSTR szName = new TCHAR[dwMaxSubKey + 1];
 						DWORD dwLen = dwMaxSubKey + 1;
 						lResult = RegEnumKeyEx(hKey, i, szName, &dwLen, 0, NULL, 0, NULL);
                         if(lResult==ERROR_SUCCESS)
@@ -1540,7 +1540,7 @@ int CErrorReportSender::DumpRegKey(HKEY hParentKey, CString sSubKey, TiXmlElemen
                     // Dump key values 
                     for(i=0; i<(int)dwValues; i++)
                     { 
-                        LPWSTR szName = new WCHAR[dwMaxValueNameLen + 1];
+                        LPTSTR szName = new TCHAR[dwMaxValueNameLen + 1];
 						LPBYTE pData = new BYTE[dwMaxValueLen];
 						DWORD dwNameLen = dwMaxValueNameLen + 1;
 						DWORD dwValueLen = dwMaxValueLen;
@@ -1549,14 +1549,14 @@ int CErrorReportSender::DumpRegKey(HKEY hParentKey, CString sSubKey, TiXmlElemen
                         lResult = RegEnumValue(hKey, i, szName, &dwNameLen, 0, &dwType, pData, &dwValueLen);
                         if(lResult==ERROR_SUCCESS)
                         {
-                            TiXmlHandle val_node = key_node.ToElement()->FirstChild(strconv.w2utf8(szName));
+                            TiXmlHandle val_node = key_node.ToElement()->FirstChild(strconv.t2utf8(szName));
                             if(val_node.ToElement()==NULL)
                             {
                                 val_node = new TiXmlElement("v");
                                 key_node.ToElement()->LinkEndChild(val_node.ToNode());
                             }
 
-                            val_node.ToElement()->SetAttribute("name", strconv.w2utf8(szName));
+                            val_node.ToElement()->SetAttribute("name", strconv.t2utf8(szName));
 
                             char str[128] = "";
                             LPSTR szType = NULL;

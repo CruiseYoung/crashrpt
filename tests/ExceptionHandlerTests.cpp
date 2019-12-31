@@ -122,7 +122,7 @@ void ExceptionHandlerTests::Test_CatchException()
 		
 			// Launch this executable with special params causing crash
 			BOOL bCreateProcess = CreateProcess(
-				sExePath, (LPWSTR)strconv.t2w(szCmdLine), NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
+				sExePath, szCmdLine, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
 			TEST_ASSERT_MSG(bCreateProcess, "Error creating process %s", strconv.t2a(szCmdLine));
 
 			// Wait until process terminates
@@ -155,7 +155,7 @@ void ExceptionHandlerTests::Test_CatchException()
 				// Look for crash report file		
 				CFindFile ff;
 				BOOL bFind = ff.FindFile(sTmpFolder+_T("\\*.zip"));		
-				TEST_ASSERT_MSG(bFind, "Could not find generated crash report file for exception type: %s", strconv.w2a(aParams[i].szExceptionType));
+				TEST_ASSERT_MSG(bFind, "Could not find generated crash report file for exception type: %s", strconv.t2a(aParams[i].szExceptionType));
 
 				// Open crash report		
 				CString sReportName = sTmpFolder + _T("\\");
@@ -167,19 +167,19 @@ void ExceptionHandlerTests::Test_CatchException()
 				// Get exception type from report
 				const int BUFF_SIZE = 256;
 				TCHAR szBuffer[BUFF_SIZE];		
-				int nResult = crpGetPropertyW(hReport, CRP_TBL_XMLDESC_MISC, CRP_COL_EXCEPTION_TYPE, 0, szBuffer, BUFF_SIZE, NULL);
+				int nResult = crpGetProperty(hReport, CRP_TBL_XMLDESC_MISC, CRP_COL_EXCEPTION_TYPE, 0, szBuffer, BUFF_SIZE, NULL);
 				TEST_ASSERT_MSG(nResult==0, "Error getting property from error report");
 
 				int nCompareResult = _tcscmp(szBuffer, j==0?aParams[i].szExceptionType:aParams[i].szExceptionTypeInWorkerThread);
-				TEST_ASSERT_MSG(nCompareResult==0, "Invalid exception type: %s, while expected: %s", strconv.w2a(szBuffer), strconv.w2a(aParams[i].szExceptionType));
+				TEST_ASSERT_MSG(nCompareResult==0, "Invalid exception type: %s, while expected: %s", strconv.t2a(szBuffer), strconv.t2a(aParams[i].szExceptionType));
 
 				// Get exception thread ID
-				nResult = crpGetPropertyW(hReport, CRP_TBL_MDMP_MISC, CRP_COL_EXCEPTION_THREAD_ROWID, 0, szBuffer, BUFF_SIZE, NULL);
+				nResult = crpGetProperty(hReport, CRP_TBL_MDMP_MISC, CRP_COL_EXCEPTION_THREAD_ROWID, 0, szBuffer, BUFF_SIZE, NULL);
 				TEST_ASSERT_MSG(nResult==0, "Error getting exception thread ID");
 				int nExceptionThreadRowId = _ttoi(szBuffer);
 
 				// Get exception thread's stack table ID
-				nResult = crpGetPropertyW(hReport, CRP_TBL_MDMP_THREADS, CRP_COL_THREAD_STACK_TABLEID, nExceptionThreadRowId, szBuffer, BUFF_SIZE, NULL);
+				nResult = crpGetProperty(hReport, CRP_TBL_MDMP_THREADS, CRP_COL_THREAD_STACK_TABLEID, nExceptionThreadRowId, szBuffer, BUFF_SIZE, NULL);
 				TEST_ASSERT_MSG(nResult==0, "Error getting thread's stack table ID");
 				CString sStackTraceTableId = szBuffer;
 
@@ -189,45 +189,45 @@ void ExceptionHandlerTests::Test_CatchException()
 					if(i==0) // SEH
 					{
 						// Get stack frames
-						int nResult = crpGetPropertyW(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 0, szBuffer, BUFF_SIZE, NULL);
+						int nResult = crpGetProperty(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 0, szBuffer, BUFF_SIZE, NULL);
 						TEST_ASSERT_MSG(nResult==0, "Error getting symbol name");
 						TEST_ASSERT(_tcscmp(szBuffer, _T("crEmulateCrash"))==0);
 
-						nResult = crpGetPropertyW(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 1, szBuffer, BUFF_SIZE, NULL);
+						nResult = crpGetProperty(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 1, szBuffer, BUFF_SIZE, NULL);
 						TEST_ASSERT_MSG(nResult==0, "Error getting symbol name");
 						TEST_ASSERT(_tcscmp(szBuffer, _T("wmain"))==0);
 					}
 					else if(i==1) // terminate
 					{
 						// Get stack frames
-						nResult = crpGetPropertyW(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 0, szBuffer, BUFF_SIZE, NULL);
+						nResult = crpGetProperty(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 0, szBuffer, BUFF_SIZE, NULL);
 						TEST_ASSERT(nResult==0);
 						TEST_ASSERT(_tcscmp(szBuffer, _T("CCrashHandler::GenerateErrorReport"))==0);
 
-						nResult = crpGetPropertyW(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 1, szBuffer, BUFF_SIZE, NULL);
+						nResult = crpGetProperty(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 1, szBuffer, BUFF_SIZE, NULL);
 						TEST_ASSERT(nResult==0);
 						TEST_ASSERT(_tcscmp(szBuffer, _T("CCrashHandler::TerminateHandler"))==0);
 
-						nResult = crpGetPropertyW(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 3, szBuffer, BUFF_SIZE, NULL);
+						nResult = crpGetProperty(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 3, szBuffer, BUFF_SIZE, NULL);
 						TEST_ASSERT(nResult==0);
 						TEST_ASSERT(_tcscmp(szBuffer, _T("crEmulateCrash"))==0);
 
-						nResult = crpGetPropertyW(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 4, szBuffer, BUFF_SIZE, NULL);
+						nResult = crpGetProperty(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 4, szBuffer, BUFF_SIZE, NULL);
 						TEST_ASSERT(nResult==0);
 						TEST_ASSERT(_tcscmp(szBuffer, _T("wmain"))==0);					
 					}
 					else if(i==2) // unexpected
 					{
 						// Get stack frames
-						nResult = crpGetPropertyW(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 0, szBuffer, BUFF_SIZE, NULL);
+						nResult = crpGetProperty(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 0, szBuffer, BUFF_SIZE, NULL);
 						TEST_ASSERT(nResult==0);
 						TEST_ASSERT(_tcscmp(szBuffer, _T("CCrashHandler::GenerateErrorReport"))==0);
 
-						nResult = crpGetPropertyW(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 1, szBuffer, BUFF_SIZE, NULL);
+						nResult = crpGetProperty(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 1, szBuffer, BUFF_SIZE, NULL);
 						TEST_ASSERT(nResult==0);
 						TEST_ASSERT(_tcscmp(szBuffer, _T("CCrashHandler::UnexpectedHandler"))==0);
 
-						nResult = crpGetPropertyW(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 3, szBuffer, BUFF_SIZE, NULL);
+						nResult = crpGetProperty(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 3, szBuffer, BUFF_SIZE, NULL);
 						TEST_ASSERT(nResult==0);
 #ifndef CRASHRPT_LIB
 						TEST_ASSERT(_tcscmp(szBuffer, _T("wmain"))==0);		
@@ -238,15 +238,15 @@ void ExceptionHandlerTests::Test_CatchException()
 					else if(i==3) // pure call
 					{
 						// Get stack frames
-						nResult = crpGetPropertyW(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 0, szBuffer, BUFF_SIZE, NULL);
+						nResult = crpGetProperty(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 0, szBuffer, BUFF_SIZE, NULL);
 						TEST_ASSERT(nResult==0);
 						TEST_ASSERT(_tcscmp(szBuffer, _T("CCrashHandler::GenerateErrorReport"))==0);
 
-						nResult = crpGetPropertyW(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 1, szBuffer, BUFF_SIZE, NULL);
+						nResult = crpGetProperty(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 1, szBuffer, BUFF_SIZE, NULL);
 						TEST_ASSERT(nResult==0);
 						TEST_ASSERT(_tcscmp(szBuffer, _T("CCrashHandler::PureCallHandler"))==0);
 
-						nResult = crpGetPropertyW(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 3, szBuffer, BUFF_SIZE, NULL);
+						nResult = crpGetProperty(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 3, szBuffer, BUFF_SIZE, NULL);
 						TEST_ASSERT(nResult==0);
 #ifndef CRASHRPT_LIB
 						TEST_ASSERT(_tcscmp(szBuffer, _T("CDerived::~CDerived"))==0);		
@@ -257,15 +257,15 @@ void ExceptionHandlerTests::Test_CatchException()
 					else if(i==13) // manual
 					{
 						// Get stack frames
-						nResult = crpGetPropertyW(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 0, szBuffer, BUFF_SIZE, NULL);
+						nResult = crpGetProperty(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 0, szBuffer, BUFF_SIZE, NULL);
 						TEST_ASSERT(nResult==0);
 						TEST_ASSERT(_tcscmp(szBuffer, _T("CCrashHandler::GenerateErrorReport"))==0);
 
-						nResult = crpGetPropertyW(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 1, szBuffer, BUFF_SIZE, NULL);
+						nResult = crpGetProperty(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 1, szBuffer, BUFF_SIZE, NULL);
 						TEST_ASSERT(nResult==0);
 						TEST_ASSERT(_tcscmp(szBuffer, _T("crGenerateErrorReport"))==0);
 												
-						nResult = crpGetPropertyW(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 2, szBuffer, BUFF_SIZE, NULL);
+						nResult = crpGetProperty(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 2, szBuffer, BUFF_SIZE, NULL);
 						TEST_ASSERT(nResult==0);
 
 						TEST_ASSERT(_tcscmp(szBuffer, _T("wmain"))==0);					
@@ -276,45 +276,45 @@ void ExceptionHandlerTests::Test_CatchException()
 					if(i==0) // SEH
 					{
 						// Get stack frames
-						int nResult = crpGetPropertyW(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 0, szBuffer, BUFF_SIZE, NULL);
+						int nResult = crpGetProperty(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 0, szBuffer, BUFF_SIZE, NULL);
 						TEST_ASSERT(nResult==0);
 						TEST_ASSERT(_tcscmp(szBuffer, _T("crEmulateCrash"))==0);
 
-						nResult = crpGetPropertyW(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 1, szBuffer, BUFF_SIZE, NULL);
+						nResult = crpGetProperty(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 1, szBuffer, BUFF_SIZE, NULL);
 						TEST_ASSERT(nResult==0);
 						TEST_ASSERT(_tcscmp(szBuffer, _T("CrashThread"))==0);					
 					}
 					else if(i==1) // terminate
 					{
 						// Get stack frames
-						nResult = crpGetPropertyW(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 0, szBuffer, BUFF_SIZE, NULL);
+						nResult = crpGetProperty(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 0, szBuffer, BUFF_SIZE, NULL);
 						TEST_ASSERT(nResult==0);
 						TEST_ASSERT(_tcscmp(szBuffer, _T("CCrashHandler::GenerateErrorReport"))==0);
 
-						nResult = crpGetPropertyW(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 1, szBuffer, BUFF_SIZE, NULL);
+						nResult = crpGetProperty(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 1, szBuffer, BUFF_SIZE, NULL);
 						TEST_ASSERT(nResult==0);
 						TEST_ASSERT(_tcscmp(szBuffer, _T("CCrashHandler::TerminateHandler"))==0);
 
-						nResult = crpGetPropertyW(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 3, szBuffer, BUFF_SIZE, NULL);
+						nResult = crpGetProperty(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 3, szBuffer, BUFF_SIZE, NULL);
 						TEST_ASSERT(nResult==0);
 						TEST_ASSERT(_tcscmp(szBuffer, _T("crEmulateCrash"))==0);
 
-						nResult = crpGetPropertyW(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 4, szBuffer, BUFF_SIZE, NULL);
+						nResult = crpGetProperty(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 4, szBuffer, BUFF_SIZE, NULL);
 						TEST_ASSERT(nResult==0);
 						TEST_ASSERT(_tcscmp(szBuffer, _T("CrashThread"))==0);					
 					}					
 					else if(i==13) // manual
 					{
 						// Get stack frames
-						nResult = crpGetPropertyW(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 0, szBuffer, BUFF_SIZE, NULL);
+						nResult = crpGetProperty(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 0, szBuffer, BUFF_SIZE, NULL);
 						TEST_ASSERT(nResult==0);
 						TEST_ASSERT(_tcscmp(szBuffer, _T("CCrashHandler::GenerateErrorReport"))==0);
 
-						nResult = crpGetPropertyW(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 1, szBuffer, BUFF_SIZE, NULL);
+						nResult = crpGetProperty(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 1, szBuffer, BUFF_SIZE, NULL);
 						TEST_ASSERT(nResult==0);
 						TEST_ASSERT(_tcscmp(szBuffer, _T("crGenerateErrorReport"))==0);
 
-						nResult = crpGetPropertyW(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 2, szBuffer, BUFF_SIZE, NULL);
+						nResult = crpGetProperty(hReport, sStackTraceTableId, CRP_COL_STACK_SYMBOL_NAME, 2, szBuffer, BUFF_SIZE, NULL);
 						TEST_ASSERT(nResult==0);
 						TEST_ASSERT(_tcscmp(szBuffer, _T("CrashThread"))==0);					
 					}
