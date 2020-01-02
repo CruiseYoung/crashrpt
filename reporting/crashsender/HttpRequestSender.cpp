@@ -482,7 +482,7 @@ BOOL CHttpRequestSender::WriteAttachmentPart(HINTERNET hRequest, CString sName)
         return FALSE; 
     }
 
-    CString sFileName = it->second.m_sSrcFileName;
+    CString sFileName = it->second.m_sSrcFileName.GetBuffer(0);
     HANDLE hFile = CreateFile(sFileName, 
         GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, NULL, NULL); 
     if(hFile==INVALID_HANDLE_VALUE)
