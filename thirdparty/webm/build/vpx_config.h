@@ -11,8 +11,12 @@
 #define RESTRICT    
 #define ARCH_ARM 0
 #define ARCH_MIPS 0
+#ifndef ARCH_X86
 #define ARCH_X86 0
+#endif
+#ifndef ARCH_X86_64
 #define ARCH_X86_64 0
+#endif
 #define ARCH_PPC32 0
 #define ARCH_PPC64 0
 #define HAVE_EDSP 0
