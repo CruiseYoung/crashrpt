@@ -47,7 +47,8 @@ int Run(LPTSTR /*lpstrCmdLine*/ = NULL, int /*nCmdShow*/ = SW_SHOWDEFAULT)
 	}
 
 	// Extract file mapping name from command line arg.    
-    CString sFileMappingName = CString(argv[1]);
+	strconv_t strconv;
+    CString sFileMappingName = CString(strconv.w2t(argv[1]));
 		
 	// Create the sender model that will collect crash report data 
 	// and send error report(s).
