@@ -187,7 +187,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_WINDOWS;_DEBUG;WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN32_WINNT=0x0501;_WINDOWS;_DEBUG;WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -222,7 +222,7 @@ echo D | xcopy "$(OutDir)$(TargetName).pdb" "$(SolutionDir)bin\$(Platform)\$(Con
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_WINDOWS;_DEBUG;WIN32;CRASHRPT_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN32_WINNT=0x0501;_WINDOWS;_DEBUG;WIN32;CRASHRPT_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -256,7 +256,7 @@ echo D | xcopy "$(OutDir)$(TargetName).pdb" "$(SolutionDir)bin\$(Platform)\$(Con
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_WINDOWS;_DEBUG;WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN32_WINNT=0x0502;_WINDOWS;_DEBUG;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -289,7 +289,7 @@ echo D | xcopy "$(OutDir)$(TargetName).pdb" "$(SolutionDir)bin\$(Platform)\$(Con
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_WINDOWS;_DEBUG;WIN64;CRASHRPT_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN32_WINNT=0x0502;_WINDOWS;_DEBUG;_WIN64;CRASHRPT_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -322,7 +322,7 @@ echo D | xcopy "$(OutDir)$(TargetName).pdb" "$(SolutionDir)bin\$(Platform)\$(Con
       <ValidateAllParameters>false</ValidateAllParameters>
     </Midl>
     <ClCompile>
-      <PreprocessorDefinitions>_WINDOWS;NDEBUG;WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN32_WINNT=0x0501;_WINDOWS;NDEBUG;WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -359,7 +359,7 @@ echo D | xcopy "$(OutDir)$(TargetName).pdb" "$(SolutionDir)bin\$(Platform)\$(Con
       <MkTypLibCompatible>false</MkTypLibCompatible>
     </Midl>
     <ClCompile>
-      <PreprocessorDefinitions>_WINDOWS;NDEBUG;WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN32_WINNT=0x0502;_WINDOWS;NDEBUG;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -396,7 +396,7 @@ echo D | xcopy "$(OutDir)$(TargetName).pdb" "$(SolutionDir)bin\$(Platform)\$(Con
       <ValidateAllParameters>false</ValidateAllParameters>
     </Midl>
     <ClCompile>
-      <PreprocessorDefinitions>_WINDOWS;NDEBUG;WIN32;CRASHRPT_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN32_WINNT=0x0501;_WINDOWS;NDEBUG;WIN32;CRASHRPT_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -432,7 +432,7 @@ echo D | xcopy "$(OutDir)$(TargetName).pdb" "$(SolutionDir)bin\$(Platform)\$(Con
       <MkTypLibCompatible>false</MkTypLibCompatible>
     </Midl>
     <ClCompile>
-      <PreprocessorDefinitions>_WINDOWS;NDEBUG;WIN64;CRASHRPT_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN32_WINNT=0x0502;_WINDOWS;NDEBUG;_WIN64;CRASHRPT_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
