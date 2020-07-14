@@ -189,7 +189,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)reporting\CrashRpt;$(SolutionDir)reporting\CrashSender;$(SolutionDir)thirdparty\wtl;$(SolutionDir)thirdparty\tinyxml;$(SolutionDir)thirdparty\minizip;$(SolutionDir)thirdparty\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_WIN32_WINNT=0x0501;_WINDOWS;_USRDLL;_DEBUG;WIN32;CRASHRPTPROBE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDOWS;_USRDLL;_DEBUG;WIN32;CRASHRPTPROBE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -221,7 +221,7 @@ echo D | xcopy "$(OutDir)$(TargetName).pdb" "$(SolutionDir)lib\$(Platform)\$(Con
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)reporting\CrashRpt;$(SolutionDir)reporting\CrashSender;$(SolutionDir)thirdparty\wtl;$(SolutionDir)thirdparty\tinyxml;$(SolutionDir)thirdparty\minizip;$(SolutionDir)thirdparty\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_WIN32_WINNT=0x0501;_LIB;_DEBUG;WIN32;CRASHRPTPROBE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_LIB;_DEBUG;WIN32;CRASHRPTPROBE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -257,7 +257,7 @@ echo D | xcopy "$(IntDir)$(TargetName).pdb" "$(SolutionDir)lib\$(Platform)\$(Con
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)reporting\CrashRpt;$(SolutionDir)reporting\CrashSender;$(SolutionDir)thirdparty\wtl;$(SolutionDir)thirdparty\tinyxml;$(SolutionDir)thirdparty\minizip;$(SolutionDir)thirdparty\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_WIN32_WINNT=0x0502;_WINDOWS;_USRDLL;_DEBUG;_WIN64;CRASHRPTPROBE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDOWS;_USRDLL;_DEBUG;_WIN64;CRASHRPTPROBE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -288,7 +288,7 @@ echo D | xcopy "$(OutDir)$(TargetName).pdb" "$(SolutionDir)lib\$(Platform)\$(Con
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)reporting\CrashRpt;$(SolutionDir)reporting\CrashSender;$(SolutionDir)thirdparty\wtl;$(SolutionDir)thirdparty\tinyxml;$(SolutionDir)thirdparty\minizip;$(SolutionDir)thirdparty\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_WIN32_WINNT=0x0502;_LIB;_DEBUG;_WIN64;CRASHRPTPROBE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_LIB;_DEBUG;_WIN64;CRASHRPTPROBE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -322,7 +322,7 @@ echo D | xcopy "$(IntDir)$(TargetName).pdb" "$(SolutionDir)lib\$(Platform)\$(Con
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)reporting\CrashRpt;$(SolutionDir)reporting\CrashSender;$(SolutionDir)thirdparty\wtl;$(SolutionDir)thirdparty\tinyxml;$(SolutionDir)thirdparty\minizip;$(SolutionDir)thirdparty\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_WIN32_WINNT=0x0501;_WINDOWS;_USRDLL;NDEBUG;WIN32;CRASHRPTPROBE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDOWS;_USRDLL;NDEBUG;WIN32;CRASHRPTPROBE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
@@ -358,7 +358,7 @@ echo D | xcopy "$(OutDir)$(TargetName).pdb" "$(SolutionDir)lib\$(Platform)\$(Con
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)reporting\CrashRpt;$(SolutionDir)reporting\CrashSender;$(SolutionDir)thirdparty\wtl;$(SolutionDir)thirdparty\tinyxml;$(SolutionDir)thirdparty\minizip;$(SolutionDir)thirdparty\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_WIN32_WINNT=0x0502;_WINDOWS;_USRDLL;NDEBUG;_WIN64;CRASHRPTPROBE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDOWS;_USRDLL;NDEBUG;_WIN64;CRASHRPTPROBE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
@@ -393,7 +393,7 @@ echo D | xcopy "$(OutDir)$(TargetName).pdb" "$(SolutionDir)lib\$(Platform)\$(Con
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">
     <ClCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)reporting\CrashRpt;$(SolutionDir)reporting\CrashSender;$(SolutionDir)thirdparty\wtl;$(SolutionDir)thirdparty\tinyxml;$(SolutionDir)thirdparty\minizip;$(SolutionDir)thirdparty\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_WIN32_WINNT=0x0501;_LIB;NDEBUG;WIN32;CRASHRPTPROBE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_LIB;NDEBUG;WIN32;CRASHRPTPROBE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
@@ -420,7 +420,7 @@ echo D | xcopy "$(IntDir)$(TargetName).pdb" "$(SolutionDir)lib\$(Platform)\$(Con
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)reporting\CrashRpt;$(SolutionDir)reporting\CrashSender;$(SolutionDir)thirdparty\wtl;$(SolutionDir)thirdparty\tinyxml;$(SolutionDir)thirdparty\minizip;$(SolutionDir)thirdparty\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_WIN32_WINNT=0x0502;_LIB;NDEBUG;_WIN64;CRASHRPTPROBE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_LIB;NDEBUG;_WIN64;CRASHRPTPROBE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>

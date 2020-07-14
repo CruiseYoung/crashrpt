@@ -16,8 +16,13 @@ be found in the Authors.txt file in the root of the source tree.
 #pragma once
 
 // Change these values to use different versions
-#define WINVER		0x0500
+#ifndef _WIN64
+#define WINVER		0x0501
 #define _WIN32_WINNT	0x0501
+#else
+#define WINVER		0x0502
+#define _WIN32_WINNT	0x0502
+#endif
 #define _WIN32_IE	0x0501
 #define _RICHEDIT_VER	0x0200
 
